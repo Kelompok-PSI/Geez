@@ -2,6 +2,7 @@ package com.example.geez.presentation.features.campaignDetails
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
@@ -44,7 +45,7 @@ fun CampaignDetail(id: String?, navController: NavController) {
     ) {
         item{
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(vertical = 25.dp)) {
-                Image(painter = painterResource(R.drawable.back), contentDescription = "Back")
+                Image(painter = painterResource(R.drawable.back), contentDescription = "Back", Modifier.clickable { navController.popBackStack() })
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
                     text = "Campaign Details",
