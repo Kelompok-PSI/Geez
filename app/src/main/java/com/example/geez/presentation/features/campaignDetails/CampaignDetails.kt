@@ -32,10 +32,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.geez.R
+import com.example.geez.presentation.features.campaignList.Campaign
 
 @Composable
-fun CampaignDetail() {
+fun CampaignDetail(id: String?, navController: NavController) {
+
     LazyColumn(
         modifier = Modifier.padding(horizontal = 20.dp)
     ) {

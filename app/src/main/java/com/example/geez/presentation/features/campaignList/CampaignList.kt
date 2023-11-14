@@ -28,12 +28,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.geez.R
+import com.example.geez.presentation.navigation.Screen
 
 
-data class Campaign(val name: String, val reached: Int, val target: Int, val description: String, val dueDate:String)
+data class Campaign(val id: String,val name: String, val reached: Int, val target: Int, val description: String, val dueDate:String)
 @Composable
-fun CampaignList(){
+fun CampaignList(navController: NavController){
     Column(modifier = Modifier.padding(start = 20.dp, end = 20.dp )) {
         Text(text = "Campaign",
             fontWeight = FontWeight.Bold,
@@ -64,6 +66,7 @@ fun CampaignList(){
         LazyColumn {
             items(DataDummy.dataDummy.size) {index ->
                 CampaignCard(onClick = {
+                                       navController.navigate(Screen.CampaignDetail.withArgs(DataDummy.dataDummy[index].id) )
                 }, DataDummy.dataDummy[index])
                 Spacer(modifier = Modifier.height(12.dp))
             }

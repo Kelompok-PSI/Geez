@@ -5,12 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.geez.presentation.features.campaignDetails.CampaignDetail
 import com.example.geez.presentation.features.campaignList.CampaignList
+import com.example.geez.presentation.navigation.Navigation
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CampaignList()
+            Navigation()
+//            CampaignList()
 //            CampaignDetail()
         }
     }
