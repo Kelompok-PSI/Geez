@@ -100,15 +100,21 @@ fun CampaignCard(onClick: () -> Unit, campaign: Campaign) {
                         .clip(shape = RoundedCornerShape(16.dp))
                         .background(color = Color(0xFFD7DFE9))
                 )
-                Text(text = "${campaign.reached} boxes food of ${campaign.target} boxes", modifier = Modifier.padding(vertical = 4.dp), fontSize = 15.sp)
+                Text(text = "${campaign.reached} boxes food of ${campaign.target} boxes",
+                    modifier = Modifier
+                        .padding(vertical = 4.dp),
+                    fontSize = 15.sp,
+                    color = Color(0xFF5E718D))
                 Text(text = "${campaign.name}",
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(5.dp))
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 10     .dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 10.dp)) {
                     Image(painter = painterResource(id = R.drawable.clarity_date_line), contentDescription = "date")
                     Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "until ${campaign.dueDate}", fontSize = 12.sp)
+                    Text(text = "until ${campaign.dueDate}",
+                        fontSize = 12.sp,
+                        color = Color(0xFF5E718D))
                 }
             }
         }

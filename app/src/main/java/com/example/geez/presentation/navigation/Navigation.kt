@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.geez.presentation.features.campaignDetails.CampaignDetail
 import com.example.geez.presentation.features.campaignList.CampaignList
+import com.example.geez.presentation.features.formDonation.FormDonation
 
 @Composable
 fun Navigation(){
@@ -26,6 +27,9 @@ fun Navigation(){
             )
         ){entry ->
             CampaignDetail(id = entry.arguments?.getString("campaign_id"), navController)
+        }
+        composable(route = Screen.FormDonation.route){
+            FormDonation(navController = navController)
         }
     }
 }

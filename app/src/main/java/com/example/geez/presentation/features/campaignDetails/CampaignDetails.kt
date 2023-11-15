@@ -36,10 +36,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.geez.R
 import com.example.geez.presentation.features.campaignList.Campaign
+import com.example.geez.presentation.navigation.Screen
 
 @Composable
 fun CampaignDetail(id: String?, navController: NavController) {
-
     LazyColumn(
         modifier = Modifier.padding(horizontal = 20.dp)
     ) {
@@ -101,7 +101,7 @@ fun CampaignDetail(id: String?, navController: NavController) {
                 textAlign = TextAlign.Justify,
                 fontSize = 15.sp
             )
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = { navController.navigate(Screen.FormDonation.route) },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF449EEE)),
                 shape = RoundedCornerShape(14.dp),
                 modifier = Modifier
@@ -140,7 +140,8 @@ fun CampaignDetailCard() {
                 Text(
                     text = "65 boxes food of 100 boxes",
                     modifier = Modifier.padding(vertical = 2.dp),
-                    fontSize = 15.sp
+                    fontSize = 15.sp,
+                    color = Color(0xFF5E718D)
                 )
             }
             Divider()
