@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <application
         android:allowBackup="true"
@@ -11,12 +11,22 @@
         android:icon="@mipmap/profile_picture_foreground"
         android:roundIcon="@mipmap/profile_picture_round"
         android:theme="@style/Theme.Geez"
-        tools:targetApi="31">
+        tools:targetApi="31" >
+        <activity
+            android:name=".presentation.features.profile.partials.AccountSetting"
+            android:exported="false"
+            android:label="@string/title_activity_account_setting"
+            android:theme="@style/Theme.Geez" />
+        <activity
+            android:name=".presentation.features.profile.Profile"
+            android:exported="false"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/Theme.Geez" />
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Geez">
+            android:theme="@style/Theme.Geez" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
