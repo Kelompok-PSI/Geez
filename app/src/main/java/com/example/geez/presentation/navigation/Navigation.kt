@@ -1,6 +1,7 @@
 package com.example.geez.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -9,6 +10,7 @@ import androidx.navigation.navArgument
 import com.example.geez.presentation.features.campaignDetails.CampaignDetail
 import com.example.geez.presentation.features.campaignList.CampaignList
 import com.example.geez.presentation.features.formDonation.FormDonation
+import com.example.geez.presentation.features.profile.Profile
 
 @Composable
 fun Navigation(){
@@ -30,6 +32,9 @@ fun Navigation(){
         }
         composable(route = Screen.FormDonation.route){
             FormDonation(navController = navController)
+        }
+        composable(route = Screen.Profile.route){
+            Profile(navController = navController)
         }
     }
 }
