@@ -25,10 +25,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             GeezTheme {
-    //            registerBigParty()
-//            registerReguler()
-            Login()
-//            Navigation()
+//                Login()
+//                registerReguler()
+//                registerBigParty()
+//                Profile()
+//                Navigation()
             }
         }
     }

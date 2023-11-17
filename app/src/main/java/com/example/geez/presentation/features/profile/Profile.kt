@@ -47,7 +47,7 @@ import com.example.geez.R
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview
 @Composable
-fun Profile(navController: NavController) {
+fun Profile() {
     return Scaffold(
         topBar = {
             TopAppBar(
