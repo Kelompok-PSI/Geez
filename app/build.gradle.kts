@@ -86,6 +86,9 @@ dependencies {
 
     // Compose Navigation
     implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("androidx.compose.material:material-icons-core")
+    implementation("androidx.compose.material:material-icons-extended")
+
 
     // Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.44")
