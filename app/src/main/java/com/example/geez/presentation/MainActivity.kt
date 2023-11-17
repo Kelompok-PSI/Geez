@@ -15,6 +15,7 @@ import com.example.geez.presentation.features.profile.Profile
 import com.example.geez.presentation.ui.theme.GeezTheme
 import com.example.geez.presentation.features.registerReguler.registerReguler
 import com.example.geez.presentation.features.registerReguler.registerReguler
+import com.example.geez.presentation.features.profile.Profile
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
