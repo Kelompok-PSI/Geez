@@ -1,13 +1,12 @@
 package com.example.geez.presentation.features.registerReguler
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,10 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,12 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.geez.presentation.ui.theme.GeezTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -43,47 +38,32 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.NavController
 import com.example.geez.R
+import com.example.geez.presentation.navigation.Screen
 import com.example.geez.presentation.ui.theme.Typography
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            GeezTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    val gradientColors = listOf(
-                        Color(0xFFFFF176),
-                        Color(0xffffEE58)
-                    )
-                    GradientBackground(isVerticalGradient = true, colors = gradientColors)
-                    registerReguler()
-                }
-            }
-        }
-    }
-}
-
-@Preview(showBackground = true)
-
 @Composable
-fun registerReguler(
-    modifier: Modifier = Modifier
+fun RegisterReguler(
+    modifier: Modifier = Modifier,
+    navController: NavController
 ){
     val gradientColorList = listOf(
         Color(0xFFF9BCDFF),
         Color(0xFFF47A3FF)
     )
+    val loginText = buildAnnotatedString { append("Login") }
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -145,7 +125,7 @@ fun registerReguler(
                         modifier = Modifier
                             .padding(end = 232.dp),
                     )
-                    TextInput(false, false)
+                    TextInput(false, false, "ex: John Doe")
                 }
                 Text(
                     text = "Email",
@@ -154,7 +134,7 @@ fun registerReguler(
                     modifier = Modifier
                         .padding(end = 232.dp)
                 )
-                TextInput(false, true)
+                TextInput(false, true, "example@gmail.com")
             }
             Column(
                 modifier = Modifier
@@ -168,7 +148,7 @@ fun registerReguler(
                     modifier = Modifier
                         .padding(end = 232.dp),
                 )
-                TextInput(true, false)
+                TextInput(true, false, "Password")
             }
             Column(
                 modifier = Modifier
@@ -177,19 +157,17 @@ fun registerReguler(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = "Confirm password",
+                    text = "Confirm Password",
                     color = Color.White,
-                    modifier = Modifier
-                        .padding(end = 222.dp),
                 )
-                TextInput(true, false)
+                TextInput(true, false, "Password")
             }
             Button(
-                onClick = {},
+                onClick = {navController.navigate(Screen.CampaignList.route)},
                 modifier = Modifier
                     .width(330.dp)
                     .height(36.dp),
-                shape = RoundedCornerShape(size = 4.dp),
+                shape = RoundedCornerShape(size = 8.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFFD7DFE9)
                 )
@@ -200,11 +178,23 @@ fun registerReguler(
                     color = Color(0xFFF5E718D)
                 )
             }
-
-            Text(
-                text = "Already have an account? Login",
-                color = Color.White
-            )
+            Row {
+                Text(
+                    text = "Doesn't have an account?",
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                ClickableText(
+                    text = loginText,
+                    style = TextStyle(
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                    ),
+                    modifier = Modifier.padding(top = 0.5.dp),
+                    onClick = { navController.navigate(Screen.Login.route) },
+                )
+            }
         }
     }
     Image(
@@ -291,27 +281,27 @@ private fun GradientBackground(
     )
 }
 
-
-
 @OptIn(ExperimentalMaterial3Api::class)
-
 @Composable
-fun TextInput(isPassword:Boolean, isEmail:Boolean){
+fun TextInput(isPassword:Boolean, isEmail:Boolean, placeholder:String){
     var value :String by remember { mutableStateOf("") }
     var icon: ImageVector? = null
     var eyeIcon : ImageVector? = null
+    if (!isEmail && !isPassword){
+        icon = Icons.Default.AccountCircle
+    }
     if(isPassword) {
         icon = Icons.Default.Lock
         eyeIcon = Icons.Filled.VisibilityOff
     }
     if(isEmail) icon = Icons.Filled.MailOutline
-    TextField(
+    OutlinedTextField(
         value = value,
-        onValueChange = {value =  it},
+        onValueChange = { value = it },
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .height(48.dp),
+            .height(52.dp),
         leadingIcon = {
             IconButton(onClick = { /*TODO*/ }) {
                 if (icon != null) {
@@ -322,6 +312,7 @@ fun TextInput(isPassword:Boolean, isEmail:Boolean){
                 }
             }
         },
+        placeholder = { Text(text = placeholder, color = Color(0xFF8897AE)) },
         colors = TextFieldDefaults.textFieldColors(
             containerColor = Color.White,
             disabledIndicatorColor = Color.Transparent,
@@ -338,6 +329,7 @@ fun TextInput(isPassword:Boolean, isEmail:Boolean){
                     )
                 }
             }
-        }
+        },
+        visualTransformation = if (!isPassword) VisualTransformation.None else PasswordVisualTransformation(),
     )
 }
