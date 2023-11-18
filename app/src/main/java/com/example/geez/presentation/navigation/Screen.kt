@@ -5,6 +5,10 @@ sealed class Screen(val route: String){
     object CampaignDetail : Screen("campaign_detail")
     object FormDonation : Screen("form_donation")
     object Profile: Screen("profile")
+    object Splash: Screen("splash")
+    object OnBoarding: Screen("boarding")
+    object Login: Screen("login")
+    object Register: Screen("register")
 
     fun withArgs(vararg args: String): String{
         return buildString {

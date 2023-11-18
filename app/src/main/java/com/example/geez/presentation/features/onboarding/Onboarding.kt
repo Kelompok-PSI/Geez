@@ -29,11 +29,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.geez.R
+import com.example.geez.presentation.navigation.Screen
 
-@Preview
 @Composable
-fun Onboarding() {
+fun Onboarding(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -72,18 +73,21 @@ fun Onboarding() {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Button(
-                    onClick = { },
+                    onClick = { navController.navigate(Screen.Login.route)},
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF449EEE)),
                     shape = RoundedCornerShape(6.dp),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(40.dp)
                 ) {
-                    Text(text = "Login", fontSize = 14.sp, fontWeight = FontWeight.W800)
+                    Text(text = "Login",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.W800,
+                    )
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 OutlinedButton(
-                    onClick = { },
+                    onClick = { navController.navigate(Screen.Register.route) },
                     shape = RoundedCornerShape(6.dp),
                     modifier = Modifier
                         .fillMaxWidth()
