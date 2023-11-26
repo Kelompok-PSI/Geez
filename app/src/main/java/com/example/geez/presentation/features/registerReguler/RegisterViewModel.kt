@@ -3,7 +3,8 @@ package com.example.geez.presentation.features.registerReguler
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.geez.data.PreferencesManager
-import com.example.geez.model.service.ApiService
+import com.example.geez.model.service.AuthApi
+import com.example.geez.presentation.features.login.LoginUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +23,7 @@ class RegisterViewModel @Inject constructor(
     fun register(email: String,name:String, password: String ) {
         viewModelScope.launch {
             try {
-                val res = ApiService.retrofitService.register(email,name,password )
+                val res = AuthApi.retrofitService.register(email,name,password )
                 mutableState.value = RegisterUiState.Success(res.data)
             } catch (e: IOException) {
                 mutableState.value = RegisterUiState.Error
