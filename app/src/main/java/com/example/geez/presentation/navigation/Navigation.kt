@@ -50,7 +50,7 @@ fun Navigation(){
             FormDonation(navController = navController)
         }
         composable(route = Screen.Profile.route){
-            Profile()
+            Profile(navController = navController)
         }
     }
 }

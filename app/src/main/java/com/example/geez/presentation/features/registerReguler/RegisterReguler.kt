@@ -1,5 +1,7 @@
 package com.example.geez.presentation.features.registerReguler
 
+import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +35,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MailOutline
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.ButtonDefaults
@@ -40,8 +43,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -49,37 +55,66 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.geez.R
+import com.example.geez.data.PreferencesManager
+import com.example.geez.presentation.component.Loading
+import com.example.geez.presentation.features.login.LoginUiState
 import com.example.geez.presentation.navigation.Screen
 import com.example.geez.presentation.ui.theme.Typography
 
+@SuppressLint("InvalidColorHexValue")
 @Composable
 fun RegisterReguler(
     modifier: Modifier = Modifier,
-    navController: NavController
-){
-    val gradientColorList = listOf(
-        Color(0xFFF9BCDFF),
-        Color(0xFFF47A3FF)
-    )
+    navController: NavController,
+    viewModel: RegisterViewModel = hiltViewModel()
+) {
+
+    val context = LocalContext.current
+    val preferencesManager = PreferencesManager(context)
+
+    var localViewModel = viewModel.state.collectAsState().value
+    LaunchedEffect(localViewModel) {
+        if (localViewModel is RegisterUiState.Error) {
+            Toast.makeText(context, "Make sure all of the field filled and match ", Toast.LENGTH_SHORT).show()
+        }
+    }
+    when (localViewModel) {
+        is RegisterUiState.Loading -> Loading()
+        is RegisterUiState.Success -> navController.navigate(Screen.Login.route)
+        else -> {}
+    }
+
     val loginText = buildAnnotatedString { append("Login") }
+
+    var email: String by remember { mutableStateOf("") }
+    var name: String by remember { mutableStateOf("") }
+    var password: String by remember { mutableStateOf("") }
+    var rePassword: String by remember { mutableStateOf("") }
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(
                 brush = GradientBackGroundBrush(
                     isVerticalGradient = true,
-                    colors = gradientColorList
+                    colors = listOf(
+                        Color(0XFFF9BCDFF),
+                        Color(0xFFF47A3FF)
+                    )
                 )
             ),
         contentAlignment = Alignment.Center,
     ) {
-        Column (
+        Column(
             Modifier
                 .padding(24.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
+            verticalArrangement = Arrangement.spacedBy(
+                16.dp,
+                alignment = Alignment.CenterVertically
+            ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -125,7 +160,11 @@ fun RegisterReguler(
                         modifier = Modifier
                             .padding(end = 232.dp),
                     )
-                    TextInput(false, false, "ex: John Doe")
+                    TextInput(
+                        false,
+                        false,
+                        "ex: John Doe",
+                        name, onValueChange = { name = it })
                 }
                 Text(
                     text = "Email",
@@ -134,7 +173,12 @@ fun RegisterReguler(
                     modifier = Modifier
                         .padding(end = 232.dp)
                 )
-                TextInput(false, true, "example@gmail.com")
+                TextInput(
+                    false,
+                    true,
+                    "example@gmail.com",
+                    email,
+                    onValueChange = { email = it })
             }
             Column(
                 modifier = Modifier
@@ -148,7 +192,12 @@ fun RegisterReguler(
                     modifier = Modifier
                         .padding(end = 232.dp),
                 )
-                TextInput(true, false, "Password")
+                TextInput(
+                    true,
+                    false,
+                    "Password",
+                    password,
+                    onValueChange = { password = it })
             }
             Column(
                 modifier = Modifier
@@ -160,10 +209,20 @@ fun RegisterReguler(
                     text = "Confirm Password",
                     color = Color.White,
                 )
-                TextInput(true, false, "Password")
+                TextInput(
+                    true,
+                    false,
+                    "Password",
+                    rePassword,
+                    onValueChange = { rePassword = it })
             }
             Button(
-                onClick = {navController.navigate(Screen.CampaignList.route)},
+                onClick = {
+                    if(password!=rePassword){
+                        Toast.makeText(context, "Password Doesn't Match!", Toast.LENGTH_SHORT,).show()
+                    }else{
+                        viewModel.register(email, name, password)}
+                    },
                 modifier = Modifier
                     .width(330.dp)
                     .height(36.dp),
@@ -171,7 +230,7 @@ fun RegisterReguler(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFFD7DFE9)
                 )
-            ){
+            ) {
                 Text(
                     text = "Register",
                     fontSize = 14.sp,
@@ -241,7 +300,6 @@ fun RegisterReguler(
                 scaleY = 0.8F
             }
     )
-
 }
 
 @Composable
@@ -249,26 +307,7 @@ private fun GradientBackGroundBrush(
     isVerticalGradient: Boolean,
     colors: List<Color>
 ): Brush {
-    val endOffset = if(isVerticalGradient){
-        Offset(0f, Float.POSITIVE_INFINITY)
-    } else {
-        Offset(Float.POSITIVE_INFINITY, 0f)
-    }
-
-        return Brush.linearGradient(
-            colors = colors,
-            start = Offset.Zero,
-            end = endOffset
-        )
-}
-
-@Composable
-private fun GradientBackground(
-    isVerticalGradient: Boolean,
-    colors: List<Color>
-): Brush {
-
-    val endOffset = if(isVerticalGradient){
+    val endOffset = if (isVerticalGradient) {
         Offset(0f, Float.POSITIVE_INFINITY)
     } else {
         Offset(Float.POSITIVE_INFINITY, 0f)
@@ -283,21 +322,28 @@ private fun GradientBackground(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextInput(isPassword:Boolean, isEmail:Boolean, placeholder:String){
-    var value :String by remember { mutableStateOf("") }
+fun TextInput(
+    isPassword: Boolean,
+    isEmail: Boolean,
+    placeholder: String,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
+    var isVisible by remember { mutableStateOf<Boolean>(false) }
+
     var icon: ImageVector? = null
-    var eyeIcon : ImageVector? = null
-    if (!isEmail && !isPassword){
+    var eyeIcon: ImageVector? = null
+    if (!isEmail && !isPassword) {
         icon = Icons.Default.AccountCircle
     }
-    if(isPassword) {
+    if (isPassword) {
         icon = Icons.Default.Lock
         eyeIcon = Icons.Filled.VisibilityOff
     }
-    if(isEmail) icon = Icons.Filled.MailOutline
+    if (isEmail) icon = Icons.Filled.MailOutline
     OutlinedTextField(
         value = value,
-        onValueChange = { value = it },
+        onValueChange = onValueChange,
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
@@ -321,15 +367,26 @@ fun TextInput(isPassword:Boolean, isEmail:Boolean, placeholder:String){
             disabledTextColor = Color.Transparent
         ),
         trailingIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
-                if (eyeIcon != null) {
-                    Icon(
-                        imageVector = eyeIcon,
-                        contentDescription = "Icon"
-                    )
+            IconButton(onClick = {
+                if (isPassword) {
+                    isVisible = !isVisible
+                }
+            }) {
+                if (isPassword) {
+                    if (!isVisible) {
+                        Icon(
+                            imageVector = Icons.Filled.VisibilityOff,
+                            contentDescription = "Icon"
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Filled.Visibility,
+                            contentDescription = "Icon"
+                        )
+                    }
                 }
             }
         },
-        visualTransformation = if (!isPassword) VisualTransformation.None else PasswordVisualTransformation(),
+        visualTransformation = if (!isPassword || isVisible) VisualTransformation.None else PasswordVisualTransformation(),
     )
 }

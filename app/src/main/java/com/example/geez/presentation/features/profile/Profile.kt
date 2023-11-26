@@ -3,6 +3,7 @@ package com.example.geez.presentation.features.profile
 import AboutProfile
 import AccountSetting
 import HelpCenter
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,11 +29,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -41,13 +45,26 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.geez.R
+import com.example.geez.presentation.component.Loading
+import com.example.geez.presentation.features.login.LoginUiState
+import com.example.geez.presentation.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview
 @Composable
-fun Profile() {
+fun Profile(navController: NavController,
+            profileViewModel: ProfileViewModel= hiltViewModel()) {
+
+    var localViewModel = profileViewModel.state.collectAsState().value
+
+    when (localViewModel) {
+        is ProfileUiState.LogedOut -> navController.navigate(Screen.OnBoarding.route)
+        else -> {}
+    }
+
     return Scaffold(
         topBar = {
             TopAppBar(
@@ -179,7 +196,7 @@ fun Profile() {
             AccountSetting()
             HelpCenter()
             AboutProfile()
-            Button(onClick = { },
+            Button(onClick = { profileViewModel.logout()},
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF574D)),
                 shape = RoundedCornerShape(14.dp),
                 modifier = Modifier

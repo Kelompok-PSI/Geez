@@ -36,17 +36,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.geez.R
+import com.example.geez.model.Campaign
 import com.example.geez.presentation.navigation.Screen
 
 
-data class Campaign(
-    val id: String,
-    val name: String,
-    val reached: Int,
-    val target: Int,
-    val description: String,
-    val dueDate: String
-)
 
 @Composable
 fun CampaignList(navController: NavController) {

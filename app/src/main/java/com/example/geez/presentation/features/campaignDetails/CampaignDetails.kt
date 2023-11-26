@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.geez.R
-import com.example.geez.presentation.features.campaignList.Campaign
 import com.example.geez.presentation.navigation.Screen
 
 @Composable

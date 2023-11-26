@@ -111,7 +111,7 @@ fun FormDonation(navController: NavController) {
             )
         }
         Button(
-            onClick = { },
+            onClick = { navController.navigate(Screen.CampaignList.route) },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF449EEE)),
             shape = RoundedCornerShape(14.dp),
             modifier = Modifier

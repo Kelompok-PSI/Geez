@@ -14,18 +14,14 @@ import com.example.geez.presentation.features.registerBigParty.registerBigParty
 import com.example.geez.presentation.navigation.Navigation
 import com.example.geez.presentation.features.profile.Profile
 import com.example.geez.presentation.ui.theme.GeezTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             GeezTheme {
-//                Onboarding()
-//                SplashPage()
-//                Login()
-//                registerReguler()
-//                registerBigParty()
-//                Profile()
                 Navigation()
             }
         }

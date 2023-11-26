@@ -1,5 +1,7 @@
 package com.example.geez.presentation.features.campaignList
 
+import com.example.geez.model.Campaign
+
 object DataDummy {
     val dataDummy = listOf<Campaign>(
         Campaign(
