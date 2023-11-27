@@ -1,9 +1,6 @@
 package com.example.geez.presentation.features.profile
 
-import AboutProfile
-import AccountSetting
-import HelpCenter
-import android.widget.Toast
+import CardHistory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,19 +8,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.KeyboardArrowRight
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -40,8 +31,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,7 +42,7 @@ import com.example.geez.presentation.features.login.LoginUiState
 import com.example.geez.presentation.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
-//@Preview
+@Preview
 @Composable
 fun Profile(navController: NavController,
             profileViewModel: ProfileViewModel= hiltViewModel()) {
@@ -66,6 +55,7 @@ fun Profile(navController: NavController,
     }
 
     return Scaffold(
+        containerColor = Color(0xffF9FAFB),
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
@@ -85,15 +75,24 @@ fun Profile(navController: NavController,
                                 fontWeight = FontWeight.ExtraBold,
                             ),
                         )
-                        Spacer(Modifier.weight(1f))
-                        Text(
-                            "edit my profile",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                textDecoration = TextDecoration.Underline,
-                                color = Color(0xff8897AE)
-                            ),
-                        )
+                        Spacer(Modifier.weight(2f))
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    color = Color(0xff449EEE),
+                                    shape = RoundedCornerShape(6.dp)
+                                )
+                                .padding(vertical = 4.dp, horizontal = 24.dp)
+                        ) {
+                            Text(
+                                text = "Logout",
+                                style = TextStyle(
+                                    color = Color(0xffF9FAFB),
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                        }
                     }
                 }
             )
@@ -158,54 +157,17 @@ fun Profile(navController: NavController,
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = Color(0xff449EEE), shape = RoundedCornerShape(5.dp))
-                    .padding(end = 12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.chips),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .height(50.dp)
-                        .width(80.dp),
-                    contentScale = ContentScale.Fit
-                )
-                Text(
-                    text = "Buy additional Chips here!",
-                    style = TextStyle(
-                        color = Color(0xffF9FAFB),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 13.sp,
-                        textAlign = TextAlign.End,
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(end = 12.dp),
-                )
-                Icon(
-                    imageVector = Icons.Rounded.KeyboardArrowRight,
-                    contentDescription = null, // Add appropriate content description
-                    tint = Color.White
-                )
-            }
-            AccountSetting()
-            HelpCenter()
-            AboutProfile()
-            Button(onClick = { profileViewModel.logout()},
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF574D)),
-                shape = RoundedCornerShape(14.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 30.dp)
-                    .height(50.dp)
-            ) {
-                Text(text = "Log Out", fontSize = 20.sp)
-            }
+            Text(
+                text = "History",
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                ),
+                modifier = Modifier.padding(bottom = 20.dp)
+            )
+            CardHistory()
+            CardHistory()
         }
     }
 }
