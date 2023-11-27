@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "268170700383",
+    "project_id": "geez-83aad",
+    "storage_bucket": "geez-83aad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268170700383:android:e003401ea243a2b7bb5dea",
+        "android_client_info": {
+          "package_name": "com.example.geez"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY66siuda6A3rA95eZX9RDCOCZsDvTiPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

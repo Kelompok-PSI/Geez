@@ -1,5 +1,6 @@
 package com.example.geez.presentation.features.formDonation
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,6 +25,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ComposeCompilerApi
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,25 +35,49 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.geez.R
+import com.example.geez.data.PreferencesManager
+import com.example.geez.presentation.component.Loading
+import com.example.geez.presentation.features.login.LoginUiState
 import com.example.geez.presentation.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FormDonation(navController: NavController) {
+fun FormDonation(
+    id: String,
+    navController: NavController,
+    formDonationViewModel: FormDonationViewModel = hiltViewModel()
+) {
+    val context = LocalContext.current
+
+    var localViewModel = formDonationViewModel.state.collectAsState().value
+    LaunchedEffect(localViewModel) {
+        if (localViewModel is FormDonationUiState.Error) {
+            Toast.makeText(context, "Check Your input again!", Toast.LENGTH_SHORT).show()
+        }
+    }
+    when (localViewModel) {
+        is FormDonationUiState.Loading -> Loading()
+        is FormDonationUiState.Success -> navController.navigate(Screen.CampaignList.route)
+        else -> {}
+    }
     var foodName by remember { mutableStateOf("") }
     var quantity by remember { mutableStateOf("") }
     var expDate by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
-    Column(modifier = Modifier
-        .padding(horizontal = 20.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 20.dp)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxHeight(.9f)
@@ -111,7 +138,7 @@ fun FormDonation(navController: NavController) {
             )
         }
         Button(
-            onClick = { },
+            onClick = { formDonationViewModel.donate(id, foodName,quantity, expDate, location)},
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF449EEE)),
             shape = RoundedCornerShape(14.dp),
             modifier = Modifier
