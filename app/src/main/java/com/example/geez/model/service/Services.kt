@@ -72,3 +72,9 @@ object ApiService {
         retrofit.create(CampaignApiService::class.java)
     }
 }
+
+object AuthApi {
+    val retrofitService: AuthApiService by lazy {
+        retrofit.create(AuthApiService::class.java)
+    }
+}
