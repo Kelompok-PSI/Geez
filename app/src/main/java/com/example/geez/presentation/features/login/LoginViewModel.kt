@@ -3,7 +3,7 @@ package com.example.geez.presentation.features.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.geez.data.PreferencesManager
-import com.example.geez.model.service.AuthApi
+import com.example.geez.model.service.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +23,7 @@ class LoginViewModel @Inject constructor(
     fun login(email: String, password: String) {
             viewModelScope.launch {
                 try {
-                    val res = AuthApi.retrofitService.login(email, password)
+                    val res = ApiService.retrofitService.login(email, password)
                     preferencesManager.saveData("token",res.data.token)
                     mutableState.value = LoginUiState.Success(res.data)
                 } catch (e: IOException) {

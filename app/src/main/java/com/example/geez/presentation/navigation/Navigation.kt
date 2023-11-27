@@ -44,10 +44,20 @@ fun Navigation(){
                 }
             )
         ){entry ->
-            CampaignDetail(id = entry.arguments?.getString("campaign_id"), navController)
+            entry.arguments!!.getString("campaign_id")
+                ?.let { CampaignDetail(id = it, navController) }
         }
-        composable(route = Screen.FormDonation.route){
-            FormDonation(navController = navController)
+        composable(
+            route = Screen.FormDonation.route + "/{campaign_id}",
+            arguments = listOf(
+                navArgument("campaign_id"){
+                    type = NavType.StringType
+                    nullable = true
+                }
+            )
+        ){entry ->
+            entry.arguments!!.getString("campaign_id")
+                ?.let { FormDonation(id = it, navController) }
         }
         composable(route = Screen.Profile.route){
             Profile(navController = navController)
