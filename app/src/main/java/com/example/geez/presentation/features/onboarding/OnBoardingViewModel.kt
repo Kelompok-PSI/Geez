@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.geez.data.PreferencesManager
 import com.example.geez.model.service.AuthApi
+import com.example.geez.presentation.features.profile.ProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,4 +38,15 @@ class OnBoardingViewModel @Inject constructor(
 //            }
 //        }
 //    }
+
+    fun logout() {
+        viewModelScope.launch {
+            try {
+                preferencesManager.saveData("token", "")
+                Log.i("logout", preferencesManager.getData("token", ""))
+            } catch (e: IOException) {
+
+            }
+        }
+    }
 }

@@ -2,19 +2,14 @@ package com.example.geez.presentation.features.profile
 
 import HistoryUiState
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.geez.data.PreferencesManager
 import com.example.geez.model.service.ApiService
-import com.example.geez.model.service.AuthApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
@@ -26,13 +21,15 @@ class ProfileViewModel @Inject constructor(
 
     private val mutableState = MutableStateFlow<ProfileUiState>(ProfileUiState.Loading)
     val state = mutableState.asStateFlow()
-    val token = preferencesManager.getData("token","")
+    private val token = preferencesManager.getData("token", "")
 
     private val historyMutableState = MutableStateFlow<HistoryUiState>(HistoryUiState.Loading)
     val historyState = historyMutableState.asStateFlow()
+
     init {
         getAllHistory()
     }
+
     fun logout() {
         viewModelScope.launch {
             try {
@@ -45,12 +42,12 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun getAllHistory(){
+    private fun getAllHistory() {
         viewModelScope.launch {
             try {
                 val res = ApiService.historyService.getALlHistory("Bearer $token")
                 historyMutableState.value = HistoryUiState.Success(res)
-            }catch (e: Error){
+            } catch (e: Error) {
                 historyMutableState.value = HistoryUiState.Error
             }
         }

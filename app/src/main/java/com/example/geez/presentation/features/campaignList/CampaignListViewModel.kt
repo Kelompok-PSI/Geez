@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.geez.data.PreferencesManager
+import com.example.geez.model.CoordinateBody
 import com.example.geez.model.service.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,37 +19,44 @@ import javax.inject.Inject
 class CampaignListViewModel @Inject constructor(
     private val preferencesManager: PreferencesManager
 ) : ViewModel() {
-    val token = preferencesManager.getData("token","")
+    val token = preferencesManager.getData("token", "")
     private val mutableState = MutableStateFlow<CampaignListUiState>(CampaignListUiState.Loading)
-    val state =mutableState.asStateFlow()
+    val state = mutableState.asStateFlow()
+
     init {
         getAllCampaigns()
     }
+
     fun getAllCampaigns() {
         viewModelScope.launch {
             try {
                 val res = ApiService.campaignService.getAllCampaigns("Bearer $token")
-                mutableState.value = CampaignListUiState.Success(res)
+                mutableState.value = CampaignListUiState.Success(res.data)
             } catch (e: IOException) {
                 mutableState.value = CampaignListUiState.Error
             } catch (e: HttpException) {
                 mutableState.value = CampaignListUiState.Error
-            }catch (e:Error){
+            } catch (e: Error) {
                 mutableState.value = CampaignListUiState.Error
             }
         }
     }
-    fun getNearByCampaign(){
+
+    fun getNearByCampaign() {
         mutableState.value = CampaignListUiState.Loading
         viewModelScope.launch {
             try {
-                val res = ApiService.campaignService.getNearestCampaign("Bearer $token")
-                mutableState.value = CampaignListUiState.Success(res)
+                val res = ApiService.campaignService.getNearestCampaign(
+                    "Bearer $token",
+                    latitude = -7.953406142855004,
+                    longitude = 112.61146065720718
+                )
+                mutableState.value = CampaignListUiState.Success(res.data.sortedCampaigns)
             } catch (e: IOException) {
                 mutableState.value = CampaignListUiState.Error
             } catch (e: HttpException) {
                 mutableState.value = CampaignListUiState.Error
-            }catch (e:Error){
+            } catch (e: Error) {
                 mutableState.value = CampaignListUiState.Error
             }
         }

@@ -56,7 +56,7 @@ fun CampaignList(
 
     var localViewModel = viewModel.state.collectAsState().value
 
-    var listCampaign: CampaignResponse = CampaignResponse()
+    var listCampaign: List<Campaign> = emptyList()
     when (localViewModel) {
         is CampaignListUiState.Loading -> Loading()
         is CampaignListUiState.Success -> {
@@ -145,10 +145,10 @@ fun CampaignList(
         }
         Spacer(modifier = Modifier.height(15.dp))
         LazyColumn {
-            items(listCampaign.data.size) { index ->
+            items(listCampaign.size) { index ->
                 CampaignCard(onClick = {
-                    navController.navigate(Screen.CampaignDetail.withArgs(listCampaign.data[index].id))
-                }, listCampaign.data[index])
+                    navController.navigate(Screen.CampaignDetail.withArgs(listCampaign[index].id))
+                }, listCampaign[index])
                 Spacer(modifier = Modifier.height(12.dp))
             }
         }

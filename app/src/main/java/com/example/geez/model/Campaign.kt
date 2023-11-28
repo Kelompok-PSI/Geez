@@ -15,13 +15,21 @@ data class CampaignResponse(
     val data: List<Campaign> = emptyList()
 )
 
+data class NearestCampaignResp(
+    val data: SortedCampaign
+)
+
+data class SortedCampaign(
+    val sortedCampaigns: List<Campaign> = emptyList()
+)
+
 data class CampaignDetail(
     val id: String,
     val name: String,
     val img: String,
     val reached: Int,
-    val location:String,
-    val rules:String = "Init rules yang pasti ada",
+    val location: String,
+    val rules: String = "Init rules yang pasti ada",
     val target: Int,
     val deadline: String,
     val startFromIdr: String,
@@ -31,4 +39,9 @@ data class CampaignDetail(
 
 data class CampaignDetailResp(
     val data: CampaignDetail
+)
+
+data class CoordinateBody(
+    val longitude: Double,
+    val altitude: Double
 )

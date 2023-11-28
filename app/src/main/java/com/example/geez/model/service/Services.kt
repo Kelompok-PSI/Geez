@@ -1,10 +1,11 @@
 package com.example.geez.model.service
 
 import HistoryResp
-import com.example.geez.model.Campaign
 import com.example.geez.model.CampaignDetailResp
 import com.example.geez.model.CampaignResponse
+import com.example.geez.model.CoordinateBody
 import com.example.geez.model.Donation
+import com.example.geez.model.NearestCampaignResp
 import com.example.geez.model.RegisterResponse
 import com.example.geez.model.UserRespons
 import com.google.gson.Gson
@@ -17,7 +18,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
-import java.util.Date
+import retrofit2.http.Query
 
 
 private const val BASE_URL = "http://52.7.48.144:3000/api/"
@@ -49,7 +50,11 @@ interface CampaignApiService {
     suspend fun getAllCampaigns(@Header("Authorization") token: String): CampaignResponse
 
     @GET("campaign/nearest")
-    suspend fun getNearestCampaign(@Header("Authorization") token: String): CampaignResponse
+    suspend fun getNearestCampaign(
+        @Header("Authorization") token: String,
+        @Query("latitude") latitude: Double?,
+        @Query("longitude") longitude: Double?,
+    ): NearestCampaignResp
 
     @GET("campaign/{campaignId}")
     suspend fun getDetailCampaign(
