@@ -17,13 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.geez.lib.convertDateFormat
 
 @Composable
-fun CardHistory() {
+fun CardHistory(data: History) {
     Column(
         modifier = Modifier.background(
             color = Color.White,
-        ).padding(bottom = 24.dp)
+        ).padding(bottom = 12.dp)
     ) {
         Image(
             painter = painterResource(id = R.drawable.image_1),
@@ -34,7 +35,7 @@ fun CardHistory() {
         )
         Column(modifier = Modifier.padding(16.dp, 12.dp)) {
             Text(
-                text = "Judul Campaign",
+                text =  "Food Donation For Zero Hunger SDGs",
                 style = TextStyle(
                     color = Color(0xff1C222B),
                     fontSize = 14.sp,
@@ -42,7 +43,7 @@ fun CardHistory() {
                 ),
             )
             Text(
-                text = "Foodname: Rendang",
+                text = "Foodname: ${data.food}",
                 style = TextStyle(
                     color = Color(0xff1C222B),
                     fontSize = 12.sp,
@@ -50,7 +51,7 @@ fun CardHistory() {
                 ),
             )
             Text(
-                text = "Quantity: 20",
+                text = "Quantity: ${data.quantity}",
                 style = TextStyle(
                     color = Color(0xff1C222B),
                     fontSize = 12.sp,
@@ -61,10 +62,10 @@ fun CardHistory() {
             Row (verticalAlignment = Alignment.CenterVertically){
                 Image(
                     painter = painterResource(id = R.drawable.clarity_date_line),
-                    contentDescription = "date"
+                    contentDescription = "tanggal"
                 )
                 Text(
-                    text = "Tanggal Donate",
+                    text = data.date.split("T")[0],
                     style = TextStyle(
                         color = Color(0xff8897AE),
                         fontSize = 8.sp,

@@ -1,8 +1,11 @@
 package com.example.geez.presentation.features.profile
 
 import CardHistory
+import HistoryResp
+import HistoryUiState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -35,6 +39,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.geez.R
+import com.example.geez.model.CampaignResponse
+import com.example.geez.presentation.component.Loading
+import com.example.geez.presentation.features.campaignList.CampaignCard
+import com.example.geez.presentation.features.campaignList.CampaignListUiState
 import com.example.geez.presentation.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,6 +54,18 @@ fun Profile(navController: NavController,
 
     when (localViewModel) {
         is ProfileUiState.LogedOut -> navController.navigate(Screen.OnBoarding.route)
+        else -> {}
+    }
+
+    var historyLocalVM = profileViewModel.historyState.collectAsState().value
+
+    var listHistory: HistoryResp = HistoryResp()
+
+    when (historyLocalVM) {
+        is HistoryUiState.Loading -> Loading()
+        is HistoryUiState.Success -> {
+            listHistory = historyLocalVM.data
+        }
         else -> {}
     }
 
@@ -78,6 +98,9 @@ fun Profile(navController: NavController,
                                     shape = RoundedCornerShape(6.dp)
                                 )
                                 .padding(vertical = 4.dp, horizontal = 24.dp)
+                                .clickable {
+                                    profileViewModel.logout()
+                                }
                         ) {
                             Text(
                                 text = "Logout",
@@ -97,7 +120,6 @@ fun Profile(navController: NavController,
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(horizontal = 20.dp, vertical = 16.dp)
-                .verticalScroll(rememberScrollState())
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
@@ -161,8 +183,11 @@ fun Profile(navController: NavController,
                 ),
                 modifier = Modifier.padding(bottom = 20.dp)
             )
-            CardHistory()
-            CardHistory()
+            LazyColumn {
+                items(listHistory.data.size) { index ->
+                    CardHistory(listHistory.data[index])
+                }
+            }
         }
     }
 }

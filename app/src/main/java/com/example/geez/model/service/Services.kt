@@ -1,5 +1,6 @@
 package com.example.geez.model.service
 
+import HistoryResp
 import com.example.geez.model.Campaign
 import com.example.geez.model.CampaignDetailResp
 import com.example.geez.model.CampaignResponse
@@ -63,6 +64,13 @@ interface CampaignApiService {
     ): CampaignDetailResp
 }
 
+interface HistoryApiService {
+    @GET("history")
+    suspend fun getALlHistory(
+        @Header("Authorization") token: String
+    ): HistoryResp
+}
+
 
 object ApiService {
     val retrofitService: AuthApiService by lazy {
@@ -70,6 +78,9 @@ object ApiService {
     }
     val campaignService: CampaignApiService by lazy {
         retrofit.create(CampaignApiService::class.java)
+    }
+    val historyService: HistoryApiService by lazy {
+        retrofit.create(HistoryApiService::class.java)
     }
 }
 
