@@ -36,6 +36,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MailOutline
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -328,12 +330,12 @@ fun TextInput(
                 if (isPassword) {
                     if (!isVisible){
                         Icon(
-                            imageVector = Icons.Filled.Add,
+                            imageVector = Icons.Filled.VisibilityOff,
                             contentDescription = "Icon"
                         )
                     }else{
                         Icon(
-                            imageVector = Icons.Filled.Delete,
+                            imageVector = Icons.Filled.Visibility,
                             contentDescription = "Icon"
                         )
                     }

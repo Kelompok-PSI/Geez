@@ -1,3 +1,4 @@
+import com.example.geez.model.CampaignDetail
 import com.google.gson.annotations.SerializedName
 
 data class History(
@@ -6,9 +7,10 @@ data class History(
     @SerializedName("campaign_id") val campaignId: Int,
     val food: String,
     val quantity: Int,
-    val expireedDate: String,
+    val expiredDate: String,
     val pickupLocation: String,
     val date: String,
+    val campaign: CampaignDetail,
 )
 
 data class HistoryResp(

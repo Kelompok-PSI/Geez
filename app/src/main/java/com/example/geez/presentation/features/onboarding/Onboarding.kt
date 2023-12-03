@@ -1,3 +1,4 @@
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,15 +26,23 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.geez.R
+import com.example.geez.data.PreferencesManager
+import com.example.geez.presentation.features.profile.ProfileUiState
+import com.example.geez.presentation.features.profile.ProfileViewModel
 import com.example.geez.presentation.navigation.Screen
+import kotlinx.coroutines.launch
+import java.io.IOException
 
 @Composable
 fun Onboarding(
     navController: NavController,
 ) {
-    Box(
+
+    return Box(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color(0xffF9FAFB))

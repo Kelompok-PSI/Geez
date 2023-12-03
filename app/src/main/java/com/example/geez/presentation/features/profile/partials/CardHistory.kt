@@ -35,7 +35,7 @@ fun CardHistory(data: History) {
         )
         Column(modifier = Modifier.padding(16.dp, 12.dp)) {
             Text(
-                text =  "Food Donation For Zero Hunger SDGs",
+                text =  data.campaign.name,
                 style = TextStyle(
                     color = Color(0xff1C222B),
                     fontSize = 14.sp,
